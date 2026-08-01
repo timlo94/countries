@@ -89,45 +89,70 @@
                 <div class="control-group">
                     <label class="form-label" for="overview-metric">Metric</label>
                     <select class="form-select" id="overview-metric">
-                        <optgroup label="Economic">
+                        <optgroup label="Macroeconomics, Output & Growth">
                             <option value="gdp" selected>GDP ($B)</option>
                             <option value="gdpPerCapita">GDP per Capita ($)</option>
                             <option value="gdpGrowth">GDP Growth (%)</option>
-                            <option value="exports">Exports ($B)</option>
-                            <option value="taxRevenue">Tax Revenue ($B)</option>
-                            <option value="inflation">Inflation (%)</option>
-                            <option value="unemployment">Unemployment (%)</option>
                         </optgroup>
-                        <optgroup label="Wealth & Business">
-                            <option value="uhnw">UHNW Individuals</option>
-                            <option value="gini">Gini Coefficient</option>
-                            <option value="global500">Global 500 Companies</option>
-                            <option value="qsTop500">QS Top 500 Universities</option>
-                        </optgroup>
-                        <optgroup label="Social / Quality of Life">
-                            <option value="hdi">Human Development Index</option>
-                            <option value="lifeExpectancy">Life Expectancy</option>
-                            <option value="safetyIndex">Safety Index</option>
-                            <option value="healthcareIndex">Healthcare Index</option>
-                            <option value="costOfLiving">Cost of Living</option>
-                            <option value="internetUsers">Internet Users (M)</option>
-                        </optgroup>
-                        <optgroup label="Demographics">
+                        <optgroup label="Demographics, Lifespan & Health">
                             <option value="population">Population (M)</option>
-                            <option value="medianAge">Median Age</option>
+                            <option value="lifeExpectancy">Life Expectancy</option>
                             <option value="tfr">Fertility Rate (TFR)</option>
                             <option value="netMigration">Net Migration Rate</option>
                             <option value="urbanPopulation">Urban Population (%)</option>
                         </optgroup>
-                        <optgroup label="Governance">
+                        <optgroup label="Education, Literacy & Human Capital">
+                            <option value="literacyRate">Literacy Rate</option>
+                        </optgroup>
+                        <optgroup label="Labor Market, Wages & Gender">
+                            <option value="unemployment">Unemployment (%)</option>
+                        </optgroup>
+                        <optgroup label="International Trade & BoP">
+                            <option value="exports">Exports ($B)</option>
+                            <option value="fdi">FDI Inflows ($B)</option>
+                        </optgroup>
+                        <optgroup label="Money, Banking & Financial Markets">
+                        </optgroup>
+                        <optgroup label="Public Finance, Debt & Govt Sector">
+                            <option value="taxRevenue">Tax Revenue ($B)</option>
+                            <option value="debtToGdp">Debt to GDP (%)</option>
+                        </optgroup>
+                        <optgroup label="Inflation, Prices & Consumer Sector">
+                            <option value="inflation">Inflation (%)</option>
+                        </optgroup>
+                        <optgroup label="Science, Technology & Innovation">
+                            <option value="internetUsers">Internet Users (M)</option>
+                            <option value="rndExpenditure">R&D Expenditure (%)</option>
+                        </optgroup>
+                        <optgroup label="Energy, Environment & Climate">
+                            <option value="co2Emissions">CO2 Emissions (t)</option>
+                            <option value="renewableEnergy">Renewable Energy (%)</option>
+                        </optgroup>
+                        <optgroup label="Real Estate, Infra & Commodities">
+                        </optgroup>
+                        <optgroup label="Poverty, Inequality & Culture">
+                            <option value="gini">Gini Coefficient</option>
+                            <option value="povertyRate">Poverty Rate (%)</option>
+                        </optgroup>
+                        <optgroup label="Custom Indicators">
+                            <option value="uhnw">UHNW Individuals</option>
+                            <option value="global500">Global 500 Companies</option>
+                            <option value="qsTop500">QS Top 500 Universities</option>
+                            <option value="hdi">Human Development Index</option>
+                            <option value="safetyIndex">Safety Index</option>
+                            <option value="healthcareIndex">Healthcare Index</option>
+                            <option value="costOfLiving">Cost of Living</option>
+                            <option value="medianAge">Median Age</option>
+                            <option value="cpr">Contraceptive Prevalence</option>
                             <option value="democracyIndex">Democracy Index</option>
                             <option value="corruptionIndex">Corruption Perception</option>
                             <option value="pressFreedom">Press Freedom</option>
                             <option value="politicalStability">Political Stability</option>
-                        </optgroup>
-                        <optgroup label="Migration">
                             <option value="passportStrength">Passport Strength</option>
                             <option value="englishProficiency">English Proficiency</option>
+                            <option value="epi">Environmental Performance</option>
+                            <option value="gii">Global Innovation Index</option>
+                            <option value="happinessIndex">Happiness Index</option>
                         </optgroup>
                     </select>
                 </div>
@@ -173,15 +198,19 @@
                     <label class="form-label" for="rankings-category">Category</label>
                     <select class="form-select" id="rankings-category">
                         <option value="all">All Metrics</option>
-                        <option value="Economic">Economic</option>
-                        <option value="Wealth">Wealth & Business</option>
-                        <option value="Social">Social / Quality of Life</option>
-                        <option value="Demographics">Demographics</option>
-                        <option value="Governance">Governance</option>
-                        <option value="Migration">Migration</option>
-                        <option value="Environmental">Environmental</option>
-                        <option value="Technology">Technology</option>
-                        <option value="Macroeconomic">Macroeconomic</option>
+                        <option value="Macroeconomics, Output & Growth">Macroeconomics, Output & Growth</option>
+                        <option value="Demographics, Lifespan & Health">Demographics, Lifespan & Health</option>
+                        <option value="Education, Literacy & Human Capital">Education, Literacy & Human Capital</option>
+                        <option value="Labor Market, Wages & Gender">Labor Market, Wages & Gender</option>
+                        <option value="International Trade & BoP">International Trade & BoP</option>
+                        <option value="Money, Banking & Financial Markets">Money, Banking & Financial Markets</option>
+                        <option value="Public Finance, Debt & Govt Sector">Public Finance, Debt & Govt Sector</option>
+                        <option value="Inflation, Prices & Consumer Sector">Inflation, Prices & Consumer Sector</option>
+                        <option value="Science, Technology & Innovation">Science, Technology & Innovation</option>
+                        <option value="Energy, Environment & Climate">Energy, Environment & Climate</option>
+                        <option value="Real Estate, Infra & Commodities">Real Estate, Infra & Commodities</option>
+                        <option value="Poverty, Inequality & Culture">Poverty, Inequality & Culture</option>
+                        <option value="Custom Indicators">Custom Indicators</option>
                     </select>
                 </div>
                 <div class="control-group" style="align-self: flex-end;">
@@ -380,8 +409,7 @@
 <!-- Shared Tooltip -->
 <div id="tooltip"></div>
 
-<!-- Scripts (order matters: data → charts → views → app) -->
-<script src="data.js?v=3"></script>
+<!-- Scripts (order matters: charts → views → app) -->
 <script src="charts.js?v=3"></script>
 <script src="views.js?v=3"></script>
 <script src="app.js?v=3"></script>

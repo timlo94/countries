@@ -353,16 +353,46 @@ function createRadarChart(containerId, countries, dimensions, options = {}) {
   if (!countries || !countries.length) return;
   const validCountries = countries.slice(0, 4);
 
-  const defaultDimensions = [
-    { key: 'gdpPerCapita', label: 'Economy', maxValue: 120000, normalize: v => v },
-    { key: 'hdi', label: 'Education', maxValue: 1, normalize: v => v },
-    { key: 'lifeExpectancy', label: 'Health', maxValue: 90, normalize: v => v },
-    { key: 'safetyIndex', label: 'Safety', maxValue: 100, normalize: v => v },
-    { key: 'democracyIndex', label: 'Governance', maxValue: 10, normalize: v => v },
-    { key: 'corruptionIndex', label: 'Transparency', maxValue: 100, normalize: v => v },
-    { key: 'internetUsers', label: 'Digital', maxValue: 100, normalize: (v, c) => (v / c.population) * 100 },
-    { key: 'costOfLiving', label: 'Affordability', maxValue: 100, normalize: v => 100 - v }
+  const coreCategories = [
+    "Macroeconomics, Output & Growth",
+    "Demographics, Lifespan & Health",
+    "Education, Literacy & Human Capital",
+    "Labor Market, Wages & Gender",
+    "International Trade & BoP",
+    "Money, Banking & Financial Markets",
+    "Public Finance, Debt & Govt Sector",
+    "Inflation, Prices & Consumer Sector",
+    "Science, Technology & Innovation",
+    "Energy, Environment & Climate",
+    "Real Estate, Infra & Commodities",
+    "Poverty, Inequality & Culture"
   ];
+
+  const defaultDimensions = coreCategories.map(cat => {
+    // Find all metrics belonging to this category
+    const catMetrics = typeof window !== 'undefined' && window.METRICS
+      ? Object.keys(window.METRICS).filter(k => window.METRICS[k].category === cat)
+      : [];
+
+    return {
+      key: cat,
+      // Shorten the label by splitting on comma for the radar axis
+      label: cat.split(',')[0],
+      maxValue: 1, // Normalized score is out of 1
+      normalize: (v, country) => {
+        if (catMetrics.length === 0) return 0;
+        let sum = 0;
+        let count = 0;
+        for (const m of catMetrics) {
+          if (country[m] !== undefined && country[m] !== null && typeof normalizeValue === 'function') {
+            sum += normalizeValue(country[m], m);
+            count++;
+          }
+        }
+        return count > 0 ? (sum / count) : 0;
+      }
+    };
+  });
 
   const dims = dimensions || defaultDimensions;
 

@@ -66,9 +66,53 @@ window.addEventListener('resize', () => {
     }, 300);
 });
 
+// ─── Data Helpers ──────────────────────────────────────────────
+
+function normalizeValue(value, metricKey) {
+  const metric = window.METRICS[metricKey];
+  if (!metric) return 0;
+  
+  let min = Infinity;
+  let max = -Infinity;
+  
+  for (const country of window.COUNTRIES) {
+    const val = country[metricKey];
+    if (val !== undefined && val !== null) {
+      if (val < min) min = val;
+      if (val > max) max = val;
+    }
+  }
+  
+  if (max === min) return 0;
+  
+  const normalized = (value - min) / (max - min);
+  return metric.higherIsBetter ? normalized : (1 - normalized);
+}
+
+function getCountryScore(country, metricKey) {
+  const normalized = normalizeValue(country[metricKey], metricKey);
+  return Math.round(normalized * 100);
+}
+
 // ─── Initialize ────────────────────────────────────────────────
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+    try {
+        const [metricsRes, countriesRes] = await Promise.all([
+            fetch('data/metrics.json'),
+            fetch('data/countries.json')
+        ]);
+        
+        window.METRICS = await metricsRes.json();
+        const countriesData = await countriesRes.json();
+        window.CONTINENTS = countriesData.CONTINENTS;
+        window.COUNTRIES = countriesData.COUNTRIES;
+    } catch (error) {
+        console.error("Failed to load data:", error);
+        alert("Failed to load dashboard data. Please ensure you are running via a local web server (e.g. Live Server).");
+        return;
+    }
+
     // Tab click handlers
     document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.addEventListener('click', () => {

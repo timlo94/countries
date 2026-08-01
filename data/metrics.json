@@ -1,0 +1,314 @@
+{
+  "gdp": {
+    "label": "GDP",
+    "unit": "$B",
+    "format": "currency",
+    "higherIsBetter": true,
+    "category": "Macroeconomics, Output & Growth",
+    "description": "Nominal GDP in billions USD"
+  },
+  "gdpPerCapita": {
+    "label": "GDP Per Capita",
+    "unit": "$",
+    "format": "currency",
+    "higherIsBetter": true,
+    "category": "Macroeconomics, Output & Growth",
+    "description": "GDP divided by population in USD"
+  },
+  "gdpGrowth": {
+    "label": "GDP Growth",
+    "unit": "%",
+    "format": "percent",
+    "higherIsBetter": true,
+    "category": "Macroeconomics, Output & Growth",
+    "description": "Annual GDP growth rate"
+  },
+  "exports": {
+    "label": "Exports",
+    "unit": "$B",
+    "format": "currency",
+    "higherIsBetter": true,
+    "category": "International Trade & BoP",
+    "description": "Total exports in billions USD"
+  },
+  "taxRevenue": {
+    "label": "Tax Revenue",
+    "unit": "$B",
+    "format": "currency",
+    "higherIsBetter": true,
+    "category": "Public Finance, Debt & Govt Sector",
+    "description": "Total tax revenue in billions USD"
+  },
+  "inflation": {
+    "label": "Inflation",
+    "unit": "%",
+    "format": "percent",
+    "higherIsBetter": false,
+    "category": "Inflation, Prices & Consumer Sector",
+    "description": "Annual CPI inflation"
+  },
+  "unemployment": {
+    "label": "Unemployment",
+    "unit": "%",
+    "format": "percent",
+    "higherIsBetter": false,
+    "category": "Labor Market, Wages & Gender",
+    "description": "Unemployment rate as % of labor force"
+  },
+  "uhnw": {
+    "label": "UHNW Individuals",
+    "unit": "",
+    "format": "number",
+    "higherIsBetter": true,
+    "category": "Custom Indicators",
+    "description": "Ultra-high-net-worth individuals count"
+  },
+  "gini": {
+    "label": "Gini Coefficient",
+    "unit": "",
+    "format": "score",
+    "higherIsBetter": false,
+    "category": "Poverty, Inequality & Culture",
+    "description": "0-100 scale (higher = more inequality)"
+  },
+  "global500": {
+    "label": "Fortune Global 500",
+    "unit": "",
+    "format": "number",
+    "higherIsBetter": true,
+    "category": "Custom Indicators",
+    "description": "Fortune Global 500 companies headquartered"
+  },
+  "qsTop500": {
+    "label": "QS Top 500 Universities",
+    "unit": "",
+    "format": "number",
+    "higherIsBetter": true,
+    "category": "Custom Indicators",
+    "description": "QS World University Rankings top 500 count"
+  },
+  "hdi": {
+    "label": "Human Development Index",
+    "unit": "",
+    "format": "decimal",
+    "higherIsBetter": true,
+    "category": "Custom Indicators",
+    "description": "HDI score 0.000-1.000"
+  },
+  "lifeExpectancy": {
+    "label": "Life Expectancy",
+    "unit": "years",
+    "format": "number",
+    "higherIsBetter": true,
+    "category": "Demographics, Lifespan & Health",
+    "description": "Life expectancy at birth"
+  },
+  "safetyIndex": {
+    "label": "Safety Index",
+    "unit": "",
+    "format": "score",
+    "higherIsBetter": true,
+    "category": "Custom Indicators",
+    "description": "Numbeo safety index (higher=safer)"
+  },
+  "healthcareIndex": {
+    "label": "Healthcare Index",
+    "unit": "",
+    "format": "score",
+    "higherIsBetter": true,
+    "category": "Custom Indicators",
+    "description": "Numbeo healthcare index (higher=better)"
+  },
+  "costOfLiving": {
+    "label": "Cost of Living",
+    "unit": "",
+    "format": "score",
+    "higherIsBetter": false,
+    "category": "Custom Indicators",
+    "description": "Cost of living index (NYC = 100)"
+  },
+  "internetUsers": {
+    "label": "Internet Users",
+    "unit": "M",
+    "format": "number",
+    "higherIsBetter": true,
+    "category": "Science, Technology & Innovation",
+    "description": "Internet users in millions"
+  },
+  "population": {
+    "label": "Population",
+    "unit": "M",
+    "format": "decimal",
+    "higherIsBetter": true,
+    "category": "Demographics, Lifespan & Health",
+    "description": "Total population in millions"
+  },
+  "medianAge": {
+    "label": "Median Age",
+    "unit": "years",
+    "format": "decimal",
+    "higherIsBetter": false,
+    "category": "Custom Indicators",
+    "description": "Median age of population"
+  },
+  "tfr": {
+    "label": "Total Fertility Rate",
+    "unit": "",
+    "format": "decimal",
+    "higherIsBetter": true,
+    "category": "Demographics, Lifespan & Health",
+    "description": "Children per woman"
+  },
+  "netMigration": {
+    "label": "Net Migration",
+    "unit": "/1000",
+    "format": "decimal",
+    "higherIsBetter": true,
+    "category": "Demographics, Lifespan & Health",
+    "description": "Net migration rate per 1000 population"
+  },
+  "urbanPopulation": {
+    "label": "Urban Population",
+    "unit": "%",
+    "format": "percent",
+    "higherIsBetter": true,
+    "category": "Demographics, Lifespan & Health",
+    "description": "% of population living in urban areas"
+  },
+  "cpr": {
+    "label": "Contraceptive Prevalence",
+    "unit": "%",
+    "format": "percent",
+    "higherIsBetter": true,
+    "category": "Custom Indicators",
+    "description": "Contraceptive prevalence rate"
+  },
+  "democracyIndex": {
+    "label": "Democracy Index",
+    "unit": "",
+    "format": "decimal",
+    "higherIsBetter": true,
+    "category": "Custom Indicators",
+    "description": "EIU Democracy Index 0-10"
+  },
+  "corruptionIndex": {
+    "label": "Corruption Index",
+    "unit": "",
+    "format": "score",
+    "higherIsBetter": true,
+    "category": "Custom Indicators",
+    "description": "Transparency International CPI 0-100 (100=clean)"
+  },
+  "pressFreedom": {
+    "label": "Press Freedom",
+    "unit": "",
+    "format": "score",
+    "higherIsBetter": true,
+    "category": "Custom Indicators",
+    "description": "RSF Press Freedom 0-100"
+  },
+  "politicalStability": {
+    "label": "Political Stability",
+    "unit": "",
+    "format": "decimal",
+    "higherIsBetter": true,
+    "category": "Custom Indicators",
+    "description": "World Bank WGI -2.5 to +2.5"
+  },
+  "passportStrength": {
+    "label": "Passport Strength",
+    "unit": "destinations",
+    "format": "number",
+    "higherIsBetter": true,
+    "category": "Custom Indicators",
+    "description": "Visa-free destinations count"
+  },
+  "englishProficiency": {
+    "label": "English Proficiency",
+    "unit": "",
+    "format": "score",
+    "higherIsBetter": true,
+    "category": "Custom Indicators",
+    "description": "EF EPI score 0-800"
+  },
+  "co2Emissions": {
+    "label": "CO2 Emissions",
+    "unit": "t",
+    "format": "decimal",
+    "higherIsBetter": false,
+    "category": "Energy, Environment & Climate",
+    "description": "CO2 emissions per capita in tonnes"
+  },
+  "renewableEnergy": {
+    "label": "Renewable Energy",
+    "unit": "%",
+    "format": "percent",
+    "higherIsBetter": true,
+    "category": "Energy, Environment & Climate",
+    "description": "Share of renewable energy"
+  },
+  "epi": {
+    "label": "Environmental Performance",
+    "unit": "",
+    "format": "score",
+    "higherIsBetter": true,
+    "category": "Custom Indicators",
+    "description": "EPI 0-100"
+  },
+  "rndExpenditure": {
+    "label": "R&D Expenditure",
+    "unit": "%",
+    "format": "percent",
+    "higherIsBetter": true,
+    "category": "Science, Technology & Innovation",
+    "description": "R&D expenditure as % of GDP"
+  },
+  "gii": {
+    "label": "Global Innovation Index",
+    "unit": "",
+    "format": "score",
+    "higherIsBetter": true,
+    "category": "Custom Indicators",
+    "description": "GII Score 0-100"
+  },
+  "happinessIndex": {
+    "label": "Happiness Index",
+    "unit": "",
+    "format": "score",
+    "higherIsBetter": true,
+    "category": "Custom Indicators",
+    "description": "World Happiness Report score"
+  },
+  "literacyRate": {
+    "label": "Literacy Rate",
+    "unit": "%",
+    "format": "percent",
+    "higherIsBetter": true,
+    "category": "Education, Literacy & Human Capital",
+    "description": "Adult literacy rate"
+  },
+  "povertyRate": {
+    "label": "Poverty Rate",
+    "unit": "%",
+    "format": "percent",
+    "higherIsBetter": false,
+    "category": "Poverty, Inequality & Culture",
+    "description": "Population below poverty line"
+  },
+  "debtToGdp": {
+    "label": "Debt to GDP",
+    "unit": "%",
+    "format": "percent",
+    "higherIsBetter": false,
+    "category": "Public Finance, Debt & Govt Sector",
+    "description": "National debt as % of GDP"
+  },
+  "fdi": {
+    "label": "FDI Inflows",
+    "unit": "$B",
+    "format": "currency",
+    "higherIsBetter": true,
+    "category": "International Trade & BoP",
+    "description": "FDI inflows in billions USD"
+  }
+}
