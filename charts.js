@@ -64,29 +64,29 @@ function positionTooltip(event) {
  */
 function formatMetricValue(value, metricKey) {
   if (value === undefined || value === null || isNaN(value)) return 'N/A';
-  
+
   const metric = (typeof METRICS !== 'undefined' && METRICS[metricKey]) ? METRICS[metricKey] : {};
   const formatType = metric.format || 'number';
-  
+
   if (formatType === 'currency') {
     if (value >= 1e12) return '$' + (value / 1e12).toFixed(2) + 'T';
     if (value >= 1e9) return '$' + (value / 1e9).toFixed(1) + 'B';
     if (value >= 1e6) return '$' + (value / 1e6).toFixed(1) + 'M';
     return d3.format("$,.0f")(value);
   }
-  
+
   if (formatType === 'percent') {
     return d3.format(".1f")(value) + '%';
   }
-  
+
   if (formatType === 'decimal') {
     return d3.format(".3f")(value);
   }
-  
+
   if (formatType === 'score') {
     return d3.format(".2f")(value);
   }
-  
+
   return d3.format(",.0f")(value);
 }
 
@@ -126,12 +126,12 @@ function createDonutChart(containerId, data, metricKey, options = {}) {
   if (!validData.length) return;
 
   const showLabels = options.showLabels !== false;
-  
+
   const width = 600;
   const height = 400;
   const margin = 40;
   const radius = Math.min(width, height) / 2 - margin;
-  
+
   const svg = d3.select(`#${containerId}`)
     .append("svg")
     .attr("viewBox", `0 0 ${width} ${height}`)
@@ -140,23 +140,23 @@ function createDonutChart(containerId, data, metricKey, options = {}) {
     .style("height", "auto")
     .append("g")
     .attr("transform", `translate(${width / 2},${height / 2})`);
-    
+
   const pie = d3.pie()
     .value(d => d[metricKey])
     .sort((a, b) => b[metricKey] - a[metricKey]);
-    
+
   const arc = d3.arc()
     .innerRadius(radius * 0.4)
     .outerRadius(radius);
-    
+
   const arcHover = d3.arc()
     .innerRadius(radius * 0.4)
     .outerRadius(radius * 1.05);
-    
+
   const totalValue = d3.sum(validData, d => d[metricKey]);
   const metricInfo = typeof METRICS !== 'undefined' && METRICS[metricKey] ? METRICS[metricKey] : {};
   const metricLabel = metricInfo.label || metricKey;
-  
+
   // Center text
   svg.append("text")
     .attr("text-anchor", "middle")
@@ -165,7 +165,7 @@ function createDonutChart(containerId, data, metricKey, options = {}) {
     .attr("font-weight", "bold")
     .attr("fill", "#c9d1d9")
     .text(formatMetricValue(totalValue, metricKey));
-    
+
   svg.append("text")
     .attr("text-anchor", "middle")
     .attr("dy", "1.2em")
@@ -180,24 +180,24 @@ function createDonutChart(containerId, data, metricKey, options = {}) {
     .attr("fill", d => getContinentColor(d.data.continent))
     .attr("stroke", "#0d1117")
     .attr("stroke-width", "2px")
-    .each(function(d) { this._current = d; });
-    
+    .each(function (d) { this._current = d; });
+
   // Transitions
   paths.transition().duration(750)
-    .attrTween("d", function(d) {
-      const i = d3.interpolate({startAngle: 0, endAngle: 0}, d);
-      return function(t) { return arc(i(t)); };
+    .attrTween("d", function (d) {
+      const i = d3.interpolate({ startAngle: 0, endAngle: 0 }, d);
+      return function (t) { return arc(i(t)); };
     });
 
   // Interactivity
   paths
-    .on("mouseover", function(event, d) {
+    .on("mouseover", function (event, d) {
       paths.style("opacity", 0.3);
       d3.select(this)
         .style("opacity", 1)
         .transition().duration(200)
         .attr("d", arcHover);
-        
+
       const percentage = ((d.data[metricKey] / totalValue) * 100).toFixed(1);
       const html = `
         <div style="font-weight:bold;margin-bottom:4px;">${d.data.flag} ${d.data.name}</div>
@@ -208,7 +208,7 @@ function createDonutChart(containerId, data, metricKey, options = {}) {
       showTooltip(event, html);
     })
     .on("mousemove", positionTooltip)
-    .on("mouseout", function(event, d) {
+    .on("mouseout", function (event, d) {
       paths.style("opacity", 1);
       d3.select(this)
         .transition().duration(200)
@@ -230,7 +230,7 @@ function createBarChart(containerId, data, metricKey, options = {}) {
 
   const validData = data.filter(d => d[metricKey] != null && !isNaN(d[metricKey]));
   validData.sort((a, b) => b[metricKey] - a[metricKey]);
-  
+
   const limit = options.limit || 10;
   const chartData = validData.slice(0, limit);
   if (!chartData.length) return;
@@ -265,23 +265,23 @@ function createBarChart(containerId, data, metricKey, options = {}) {
     .attr("transform", `translate(0,${innerHeight})`)
     .call(d3.axisBottom(x).ticks(5).tickSizeOuter(0))
     .selectAll("text").attr("fill", "#7d8590");
-    
+
   svg.select(".x-axis").selectAll("path, line").attr("stroke", "#484f58");
 
   const yAxis = svg.append("g")
     .attr("class", "y-axis")
     .call(d3.axisLeft(y).tickSize(0));
-    
+
   yAxis.selectAll("text")
     .attr("fill", "#c9d1d9")
     .attr("font-size", "14px")
-    .each(function(d) {
+    .each(function (d) {
       const country = chartData.find(c => c.name === d);
       if (country && options.showFlags !== false) {
         d3.select(this).text(`${country.flag} ${d}`);
       }
     });
-    
+
   yAxis.select(".domain").remove();
 
   // Bars
@@ -323,10 +323,10 @@ function createBarChart(containerId, data, metricKey, options = {}) {
   const metricLabel = metricInfo.label || metricKey;
 
   bars
-    .on("mouseover", function(event, d) {
+    .on("mouseover", function (event, d) {
       bars.style("opacity", 0.5);
       d3.select(this).style("opacity", 1).attr("fill", d3.color(getContinentColor(d.continent)).brighter(0.2));
-      
+
       const html = `
         <div style="font-weight:bold;margin-bottom:4px;">${d.flag} ${d.name}</div>
         <div>${metricLabel}: <span style="color:#58a6ff">${formatMetricValue(d[metricKey], metricKey)}</span></div>
@@ -335,7 +335,7 @@ function createBarChart(containerId, data, metricKey, options = {}) {
       showTooltip(event, html);
     })
     .on("mousemove", positionTooltip)
-    .on("mouseout", function(event, d) {
+    .on("mouseout", function (event, d) {
       bars.style("opacity", 1).attr("fill", getContinentColor(d.continent));
       hideTooltip();
     });
@@ -365,13 +365,13 @@ function createRadarChart(containerId, countries, dimensions, options = {}) {
   ];
 
   const dims = dimensions || defaultDimensions;
-  
+
   const width = 600;
   const height = 500;
   const margin = 60;
   const radius = Math.min(width, height) / 2 - margin;
   const angleSlice = (Math.PI * 2) / dims.length;
-  
+
   const svg = d3.select(`#${containerId}`)
     .append("svg")
     .attr("viewBox", `0 0 ${width} ${height}`)
@@ -444,7 +444,7 @@ function createRadarChart(containerId, countries, dimensions, options = {}) {
   // Polygons
   validCountries.forEach((country, cIdx) => {
     const pts = getRadarPoints(country);
-    
+
     // Polygon
     svg.append("path")
       .datum(pts)
@@ -457,7 +457,7 @@ function createRadarChart(containerId, countries, dimensions, options = {}) {
       .style("opacity", 0)
       .transition().duration(750)
       .style("opacity", 1);
-      
+
     // Interactive areas
     svg.append("path")
       .datum(pts)
@@ -465,11 +465,11 @@ function createRadarChart(containerId, countries, dimensions, options = {}) {
       .attr("fill", "transparent")
       .attr("stroke", "transparent")
       .attr("stroke-width", 15)
-      .on("mouseover", function() {
+      .on("mouseover", function () {
         svg.selectAll(".radar-polygon").style("fill-opacity", 0.05).style("stroke-opacity", 0.3);
         svg.select(`.radar-polygon-${cIdx}`).style("fill-opacity", 0.5).style("stroke-opacity", 1);
       })
-      .on("mouseout", function() {
+      .on("mouseout", function () {
         svg.selectAll(".radar-polygon").style("fill-opacity", 0.2).style("stroke-opacity", 1);
       });
 
@@ -486,7 +486,7 @@ function createRadarChart(containerId, countries, dimensions, options = {}) {
       .style("opacity", 0)
       .transition().duration(750).delay(100)
       .style("opacity", 1);
-      
+
     svg.selectAll(`.vertex-hover-${cIdx}`)
       .data(pts)
       .enter()
@@ -496,7 +496,7 @@ function createRadarChart(containerId, countries, dimensions, options = {}) {
       .attr("cy", d => d.y)
       .attr("r", 10)
       .attr("fill", "transparent")
-      .on("mouseover", function(event, d) {
+      .on("mouseover", function (event, d) {
         d3.select(this).style("cursor", "pointer");
         let formatted = typeof METRICS !== 'undefined' && METRICS[d.key] ? formatMetricValue(d.raw, d.key) : d3.format(".2f")(d.raw);
         const html = `
@@ -512,7 +512,7 @@ function createRadarChart(containerId, countries, dimensions, options = {}) {
   // Legend
   const legend = d3.select(`#${containerId} svg`).append("g")
     .attr("transform", `translate(${margin}, 20)`);
-    
+
   validCountries.forEach((c, i) => {
     const lg = legend.append("g")
       .attr("transform", `translate(${i * 120}, 0)`);
@@ -546,7 +546,7 @@ function createScatterPlot(containerId, data, xMetric, yMetric, options = {}) {
   if (!validData.length) return;
 
   const sizeMetric = options.sizeMetric || 'population';
-  
+
   const width = 800;
   const height = 500;
   const margin = { top: 40, right: 40, bottom: 60, left: 80 };
@@ -581,12 +581,12 @@ function createScatterPlot(containerId, data, xMetric, yMetric, options = {}) {
     .attr("transform", `translate(0,${innerHeight})`)
     .call(d3.axisBottom(x).ticks(8).tickSize(-innerHeight).tickFormat(""))
     .selectAll("line").attr("stroke", "rgba(255, 255, 255, 0.06)");
-    
+
   svg.append("g")
     .attr("class", "grid")
     .call(d3.axisLeft(y).ticks(8).tickSize(-innerWidth).tickFormat(""))
     .selectAll("line").attr("stroke", "rgba(255, 255, 255, 0.06)");
-    
+
   svg.selectAll(".grid path").style("display", "none");
 
   // Axes
@@ -625,7 +625,7 @@ function createScatterPlot(containerId, data, xMetric, yMetric, options = {}) {
     const xMean = d3.mean(validData, d => d[xMetric]);
     const yMean = d3.mean(validData, d => d[yMetric]);
     let num = 0, denX = 0, denY = 0;
-    
+
     validData.forEach(d => {
       const dx = d[xMetric] - xMean;
       const dy = d[yMetric] - yMean;
@@ -633,7 +633,7 @@ function createScatterPlot(containerId, data, xMetric, yMetric, options = {}) {
       denX += dx * dx;
       denY += dy * dy;
     });
-    
+
     const denom = Math.sqrt(denX * denY);
     if (denom > 0) {
       correlation = num / denom;
@@ -645,14 +645,14 @@ function createScatterPlot(containerId, data, xMetric, yMetric, options = {}) {
     const xMean = d3.mean(validData, d => d[xMetric]);
     const yMean = d3.mean(validData, d => d[yMetric]);
     let num = 0, denX = 0;
-    
+
     validData.forEach(d => {
       const dx = d[xMetric] - xMean;
       const dy = d[yMetric] - yMean;
       num += dx * dy;
       denX += dx * dx;
     });
-    
+
     if (denX > 0) {
       const m = num / denX;
       const b = yMean - m * xMean;
@@ -695,12 +695,12 @@ function createScatterPlot(containerId, data, xMetric, yMetric, options = {}) {
 
   // Interactions
   dots
-    .on("mouseover", function(event, d) {
+    .on("mouseover", function (event, d) {
       d3.select(this)
         .transition().duration(200)
         .attr("r", d => size(d[sizeMetric] || 1) + 4)
         .attr("opacity", 1);
-        
+
       const html = `
         <div style="font-weight:bold;margin-bottom:4px;">${d.flag} ${d.name}</div>
         <div>${getLabel(xMetric)}: <span style="color:#58a6ff">${formatMetricValue(d[xMetric], xMetric)}</span></div>
@@ -710,18 +710,18 @@ function createScatterPlot(containerId, data, xMetric, yMetric, options = {}) {
       showTooltip(event, html);
     })
     .on("mousemove", positionTooltip)
-    .on("mouseout", function(event, d) {
+    .on("mouseout", function (event, d) {
       d3.select(this)
         .transition().duration(200)
         .attr("r", d => size(d[sizeMetric] || 1))
         .attr("opacity", 0.7);
       hideTooltip();
     });
-    
+
   // Labels for largest dots
   if (options.showLabels !== false) {
     const largestData = [...validData].sort((a, b) => (b[sizeMetric] || 0) - (a[sizeMetric] || 0)).slice(0, 5);
-    
+
     svg.selectAll(".dot-label")
       .data(largestData)
       .enter()
@@ -752,9 +752,9 @@ function createComparisonTable(containerId, countries, metricKeys) {
   const container = document.getElementById(containerId);
   if (!container) return;
   container.innerHTML = '';
-  
+
   if (!countries || !countries.length || !metricKeys || !metricKeys.length) return;
-  
+
   const validCountries = countries.slice(0, 4);
 
   // Default CSS classes for table
@@ -768,13 +768,13 @@ function createComparisonTable(containerId, countries, metricKeys) {
   const thead = document.createElement('thead');
   const headerRow = document.createElement('tr');
   headerRow.style.borderBottom = '2px solid #30363d';
-  
+
   let th = document.createElement('th');
   th.style.padding = '12px 8px';
   th.style.color = '#8b949e';
   th.textContent = 'Metric';
   headerRow.appendChild(th);
-  
+
   validCountries.forEach(c => {
     let td = document.createElement('th');
     td.style.padding = '12px 8px';
@@ -786,7 +786,7 @@ function createComparisonTable(containerId, countries, metricKeys) {
   table.appendChild(thead);
 
   const tbody = document.createElement('tbody');
-  
+
   const verdicts = {};
 
   metricKeys.forEach((key, index) => {
@@ -794,18 +794,18 @@ function createComparisonTable(containerId, countries, metricKeys) {
     const tr = document.createElement('tr');
     tr.style.borderBottom = '1px solid #21262d';
     if (index % 2 === 0) tr.style.backgroundColor = 'rgba(255,255,255,0.02)';
-    
+
     const tdLabel = document.createElement('td');
     tdLabel.style.padding = '12px 8px';
     tdLabel.style.color = '#8b949e';
     tdLabel.textContent = metricInfo.label;
     tr.appendChild(tdLabel);
-    
+
     // Find best
     let bestValue = null;
     let bestCountry = null;
     let validValues = [];
-    
+
     validCountries.forEach(c => {
       const val = c[key];
       if (val != null && !isNaN(val)) {
@@ -827,7 +827,7 @@ function createComparisonTable(containerId, countries, metricKeys) {
     validCountries.forEach(c => {
       const td = document.createElement('td');
       td.style.padding = '12px 8px';
-      
+
       const val = c[key];
       if (val == null || isNaN(val)) {
         td.textContent = 'N/A';
@@ -840,7 +840,7 @@ function createComparisonTable(containerId, countries, metricKeys) {
       }
       tr.appendChild(td);
     });
-    
+
     tbody.appendChild(tr);
   });
 
@@ -861,7 +861,7 @@ function createLineChart(containerId, historyData, metricKey) {
 
   const width = container.node().getBoundingClientRect().width;
   const height = container.node().getBoundingClientRect().height || 300;
-  const margin = {top: 20, right: 30, bottom: 30, left: 50};
+  const margin = { top: 20, right: 30, bottom: 30, left: 50 };
 
   const svg = container.append('svg')
     .attr('width', width)
@@ -870,8 +870,8 @@ function createLineChart(containerId, historyData, metricKey) {
 
   if (!historyData || historyData.length === 0) {
     svg.append('text')
-      .attr('x', width/2)
-      .attr('y', height/2)
+      .attr('x', width / 2)
+      .attr('y', height / 2)
       .attr('text-anchor', 'middle')
       .attr('fill', 'var(--text-muted)')
       .text('No historical data available');
@@ -933,7 +933,7 @@ let worldGeoJson = null;
 async function createMapChart(containerId, data, metricKey) {
   const container = d3.select(`#${containerId}`);
   if (container.empty()) return;
-  
+
   // Only remove SVG if we are redrawing completely, but usually we just want to update colors.
   // For simplicity, we'll redraw
   const oldSvg = container.select('.map-svg');
@@ -951,8 +951,8 @@ async function createMapChart(containerId, data, metricKey) {
       worldGeoJson = await d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson");
     } catch (e) {
       svg.append('text')
-        .attr('x', width/2)
-        .attr('y', height/2)
+        .attr('x', width / 2)
+        .attr('y', height / 2)
         .attr('text-anchor', 'middle')
         .attr('fill', 'var(--text-muted)')
         .text('Failed to load map data.');
@@ -973,11 +973,14 @@ async function createMapChart(containerId, data, metricKey) {
     // Also try to map common aliases if necessary, for now exact match
   });
 
+  // ✅ PASTE THIS FIXED BLOCK
   const allVals = data.map(d => d[metricKey]).filter(v => v != null && !isNaN(v));
   const min = d3.min(allVals) || 0;
   const max = d3.max(allVals) || 1;
   const meta = METRICS[metricKey] || { higherIsBetter: true };
-  
+
+  // Fixed: properly append the legend HTML container
+  container.append('div').html(`
     <div class="map-legend-labels">
       <span>${formatMetricValue(min, metricKey)}</span>
       <span>${formatMetricValue(max, metricKey)}</span>
