@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Country Insights Dashboard</title>
+    <meta name="description" content="Comprehensive country intelligence dashboard — compare economies, quality of life, governance, and demographics across 60+ nations worldwide.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- D3.js -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+
+    <!-- Design System -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="dashboard">
+
+    <!-- ══════════════════════════ HEADER ══════════════════════════ -->
+    <header class="dashboard-header">
+        <div class="header-brand">
+            <h1 class="header-title">🌍 Global Country Insights</h1>
+            <p class="header-subtitle">Economic · Social · Political · Demographic intelligence for 60+ nations</p>
+        </div>
+        <button id="theme-toggle" class="theme-toggle-btn">🌓 Toggle Theme</button>
+        <nav class="tab-nav" role="tablist" aria-label="Dashboard views">
+            <button class="tab-btn active" data-tab="overview" role="tab" aria-selected="true">
+                <span class="tab-icon">🌍</span> Overview
+            </button>
+            <button class="tab-btn" data-tab="rankings" role="tab" aria-selected="false">
+                <span class="tab-icon">📊</span> Rankings
+            </button>
+            <button class="tab-btn" data-tab="deepdive" role="tab" aria-selected="false">
+                <span class="tab-icon">🔬</span> Deep Dive
+            </button>
+            <button class="tab-btn" data-tab="compare" role="tab" aria-selected="false">
+                <span class="tab-icon">⚖️</span> Compare
+            </button>
+            <button class="tab-btn" data-tab="correlations" role="tab" aria-selected="false">
+                <span class="tab-icon">📈</span> Correlations
+            </button>
+            <button class="tab-btn" data-tab="map" role="tab" aria-selected="false">
+                <span class="tab-icon">🗺️</span> Map View
+            </button>
+        </nav>
+    </header>
+
+    <!-- ══════════════════════════ CONTENT ══════════════════════════ -->
+    <div class="dashboard-content">
+
+        <!-- ──────────── TAB 1: GLOBAL OVERVIEW ──────────── -->
+        <section class="tab-panel active" id="panel-overview" role="tabpanel">
+
+            <!-- KPI Cards Row -->
+            <div class="kpi-row" id="kpi-row">
+                <div class="kpi-card" id="kpi-gdp">
+                    <div class="kpi-label">Total GDP</div>
+                    <div class="kpi-value" id="kpi-gdp-value">—</div>
+                </div>
+                <div class="kpi-card" id="kpi-population">
+                    <div class="kpi-label">Population</div>
+                    <div class="kpi-value" id="kpi-pop-value">—</div>
+                </div>
+                <div class="kpi-card" id="kpi-hdi">
+                    <div class="kpi-label">Avg HDI</div>
+                    <div class="kpi-value" id="kpi-hdi-value">—</div>
+                </div>
+                <div class="kpi-card" id="kpi-lifeexp">
+                    <div class="kpi-label">Avg Life Expectancy</div>
+                    <div class="kpi-value" id="kpi-life-value">—</div>
+                </div>
+                <div class="kpi-card" id="kpi-democracy">
+                    <div class="kpi-label">Avg Democracy Index</div>
+                    <div class="kpi-value" id="kpi-dem-value">—</div>
+                </div>
+                <div class="kpi-card" id="kpi-countries">
+                    <div class="kpi-label">Countries</div>
+                    <div class="kpi-value" id="kpi-count-value">—</div>
+                </div>
+            </div>
+
+            <!-- Controls Row -->
+            <div class="controls-row">
+                <div class="control-group">
+                    <label class="form-label" for="overview-metric">Metric</label>
+                    <select class="form-select" id="overview-metric">
+                        <optgroup label="Economic">
+                            <option value="gdp" selected>GDP ($B)</option>
+                            <option value="gdpPerCapita">GDP per Capita ($)</option>
+                            <option value="gdpGrowth">GDP Growth (%)</option>
+                            <option value="exports">Exports ($B)</option>
+                            <option value="taxRevenue">Tax Revenue ($B)</option>
+                            <option value="inflation">Inflation (%)</option>
+                            <option value="unemployment">Unemployment (%)</option>
+                        </optgroup>
+                        <optgroup label="Wealth & Business">
+                            <option value="uhnw">UHNW Individuals</option>
+                            <option value="gini">Gini Coefficient</option>
+                            <option value="global500">Global 500 Companies</option>
+                            <option value="qsTop500">QS Top 500 Universities</option>
+                        </optgroup>
+                        <optgroup label="Social / Quality of Life">
+                            <option value="hdi">Human Development Index</option>
+                            <option value="lifeExpectancy">Life Expectancy</option>
+                            <option value="safetyIndex">Safety Index</option>
+                            <option value="healthcareIndex">Healthcare Index</option>
+                            <option value="costOfLiving">Cost of Living</option>
+                            <option value="internetUsers">Internet Users (M)</option>
+                        </optgroup>
+                        <optgroup label="Demographics">
+                            <option value="population">Population (M)</option>
+                            <option value="medianAge">Median Age</option>
+                            <option value="tfr">Fertility Rate (TFR)</option>
+                            <option value="netMigration">Net Migration Rate</option>
+                            <option value="urbanPopulation">Urban Population (%)</option>
+                        </optgroup>
+                        <optgroup label="Governance">
+                            <option value="democracyIndex">Democracy Index</option>
+                            <option value="corruptionIndex">Corruption Perception</option>
+                            <option value="pressFreedom">Press Freedom</option>
+                            <option value="politicalStability">Political Stability</option>
+                        </optgroup>
+                        <optgroup label="Migration">
+                            <option value="passportStrength">Passport Strength</option>
+                            <option value="englishProficiency">English Proficiency</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label class="form-label">Continent</label>
+                    <div class="filter-group" id="overview-continents"></div>
+                </div>
+                <div class="control-group">
+                    <label class="form-label" for="overview-search">Search</label>
+                    <input class="form-input" type="text" id="overview-search" placeholder="Type a country name...">
+                </div>
+            </div>
+
+            <!-- Charts Row -->
+            <div class="overview-charts">
+                <div class="card chart-card">
+                    <div class="card-header">
+                        <h3 class="chart-title">Continental Share</h3>
+                    </div>
+                    <div class="chart-wrap" id="overview-donut"></div>
+                </div>
+                <div class="card chart-card">
+                    <div class="card-header">
+                        <h3 class="chart-title" id="bar-chart-title">Top 10 Countries</h3>
+                    </div>
+                    <div class="chart-wrap" id="overview-bar"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ──────────── TAB 2: COUNTRY RANKINGS ──────────── -->
+        <section class="tab-panel" id="panel-rankings" role="tabpanel">
+            <div class="controls-row">
+                <div class="control-group">
+                    <label class="form-label" for="rankings-search">Search</label>
+                    <input class="form-input" type="text" id="rankings-search" placeholder="Filter countries...">
+                </div>
+                <div class="control-group">
+                    <label class="form-label">Continent</label>
+                    <div class="filter-group" id="rankings-continents"></div>
+                </div>
+                <div class="control-group">
+                    <label class="form-label" for="rankings-category">Category</label>
+                    <select class="form-select" id="rankings-category">
+                        <option value="all">All Metrics</option>
+                        <option value="Economic">Economic</option>
+                        <option value="Wealth">Wealth & Business</option>
+                        <option value="Social">Social / Quality of Life</option>
+                        <option value="Demographics">Demographics</option>
+                        <option value="Governance">Governance</option>
+                        <option value="Migration">Migration</option>
+                        <option value="Environmental">Environmental</option>
+                        <option value="Technology">Technology</option>
+                        <option value="Macroeconomic">Macroeconomic</option>
+                    </select>
+                </div>
+                <div class="control-group" style="align-self: flex-end;">
+                    <button class="btn-filter active" id="btn-export-csv" style="padding: 10px 16px;">📥 Export CSV</button>
+                </div>
+            </div>
+            <div class="card">
+                <div class="table-scroll">
+                    <table class="data-table" id="rankings-table">
+                        <thead id="rankings-thead"></thead>
+                        <tbody id="rankings-tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ──────────── TAB 3: COUNTRY DEEP DIVE ──────────── -->
+        <section class="tab-panel" id="panel-deepdive" role="tabpanel">
+            <div class="controls-row">
+                <div class="control-group" style="flex: 1; max-width: 400px;">
+                    <label class="form-label" for="deepdive-country">Select Country</label>
+                    <select class="form-select" id="deepdive-country"></select>
+                </div>
+            </div>
+
+            <!-- Country Profile Header -->
+            <div class="card profile-header" id="deepdive-header">
+                <div class="profile-identity">
+                    <span class="profile-flag" id="dd-flag"></span>
+                    <div>
+                        <h2 class="profile-name" id="dd-name">Select a country</h2>
+                        <span class="profile-continent" id="dd-continent"></span>
+                    </div>
+                </div>
+                <div class="profile-quick-stats" id="dd-quick-stats"></div>
+            </div>
+
+            <!-- Radar + Strengths Row -->
+            <div class="deepdive-row">
+                <div class="card chart-card deepdive-radar-card">
+                    <div class="card-header">
+                        <h3 class="chart-title">Multi-Dimensional Profile</h3>
+                    </div>
+                    <div class="chart-wrap" id="deepdive-radar"></div>
+                </div>
+                <div class="card deepdive-insights-card">
+                    <div class="card-header">
+                        <h3 class="chart-title">Strengths & Watch Areas</h3>
+                    </div>
+                    <div id="deepdive-insights"></div>
+                </div>
+            </div>
+
+            <!-- Metric Cards Grid -->
+            <div class="metric-grid" id="deepdive-metrics"></div>
+
+            <!-- Historical Trends Row -->
+            <div class="card chart-card" style="margin-top: 24px;">
+                <div class="card-header">
+                    <h3 class="chart-title">Historical Trends (2004 - 2024)</h3>
+                    <select class="form-select" id="historical-metric" style="width: auto;">
+                        <option value="gdp">GDP ($B)</option>
+                        <option value="population">Population (M)</option>
+                    </select>
+                </div>
+                <div class="chart-wrap" id="deepdive-history" style="height: 300px;"></div>
+            </div>
+
+            <!-- Find Similar Countries Row -->
+            <div class="card" style="margin-top: 24px;">
+                <div class="card-header">
+                    <h3 class="chart-title">Similar Countries</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 4px;">Based on multi-dimensional distance algorithm across all metrics.</p>
+                </div>
+                <div class="card-body">
+                    <div id="similarity-results" class="similarity-grid"></div>
+                </div>
+            </div>
+
+            <!-- Demographic Note -->
+            <div class="card" id="deepdive-note-card" style="display:none;">
+                <div class="card-header">
+                    <h3 class="chart-title">📝 Demographic Notes</h3>
+                </div>
+                <div class="card-body">
+                    <p class="demo-note" id="dd-demo-note"></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ──────────── TAB 4: COMPARE COUNTRIES ──────────── -->
+        <section class="tab-panel" id="panel-compare" role="tabpanel">
+            <div class="controls-row">
+                <div class="control-group" style="flex: 1;">
+                    <label class="form-label">Select countries to compare (2–4)</label>
+                    <div class="compare-selector">
+                        <select class="form-select" id="compare-add-country">
+                            <option value="">+ Add a country...</option>
+                        </select>
+                        <div class="country-tags" id="compare-tags"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="compare-content" style="display:none;">
+                <!-- Radar Overlay -->
+                <div class="card chart-card">
+                    <div class="card-header">
+                        <h3 class="chart-title">Multi-Dimensional Comparison</h3>
+                    </div>
+                    <div class="chart-wrap" id="compare-radar"></div>
+                    <div class="radar-legend" id="compare-radar-legend"></div>
+                </div>
+
+                <!-- Verdict Cards -->
+                <div class="verdict-grid" id="compare-verdicts"></div>
+
+                <!-- Comparison Table -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="chart-title">Detailed Comparison</h3>
+                    </div>
+                    <div class="table-scroll" id="compare-table-container"></div>
+                </div>
+            </div>
+
+            <div class="empty-state" id="compare-empty">
+                <p>Select 2–4 countries above to see a side-by-side comparison.</p>
+            </div>
+        </section>
+
+        <!-- ──────────── TAB 5: EXPLORE CORRELATIONS ──────────── -->
+        <section class="tab-panel" id="panel-correlations" role="tabpanel">
+            <div class="controls-row">
+                <div class="control-group">
+                    <label class="form-label" for="scatter-x">X-Axis</label>
+                    <select class="form-select" id="scatter-x"></select>
+                </div>
+                <div class="control-group">
+                    <label class="form-label" for="scatter-y">Y-Axis</label>
+                    <select class="form-select" id="scatter-y"></select>
+                </div>
+                <div class="control-group">
+                    <label class="form-label" for="scatter-size">Bubble Size</label>
+                    <select class="form-select" id="scatter-size"></select>
+                </div>
+                <div class="control-group" style="align-self: flex-end;">
+                    <label class="toggle-label">
+                        <input type="checkbox" id="scatter-trendline" checked>
+                        Show Trend Line
+                    </label>
+                </div>
+            </div>
+
+            <div class="correlation-header">
+                <span class="correlation-badge" id="correlation-badge">r = —</span>
+                <span class="correlation-desc" id="correlation-desc"></span>
+            </div>
+
+            <div class="card chart-card scatter-card">
+                <div class="chart-wrap" id="scatter-plot" style="min-height: 500px;"></div>
+            </div>
+
+            <!-- Auto-generated insight -->
+            <div class="card" id="scatter-insight-card" style="display:none;">
+                <div class="card-body">
+                    <p id="scatter-insight"></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ──────────── TAB 6: MAP VIEW ──────────── -->
+        <section class="tab-panel" id="panel-map" role="tabpanel">
+            <div class="controls-row">
+                <div class="control-group" style="flex: 1; max-width: 400px;">
+                    <label class="form-label" for="map-metric">Select Metric</label>
+                    <select class="form-select" id="map-metric"></select>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="chart-title" id="map-title">Global Map</h3>
+                </div>
+                <div class="card-body">
+                    <div id="map-container" class="map-container">
+                        <div id="map-legend" class="map-legend"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div><!-- /dashboard-content -->
+</div><!-- /dashboard -->
+
+<!-- Shared Tooltip -->
+<div id="tooltip"></div>
+
+<!-- Scripts (order matters: data → charts → views → app) -->
+<script src="data.js"></script>
+<script src="charts.js"></script>
+<script src="views.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>
