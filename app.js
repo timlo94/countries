@@ -87,26 +87,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Theme Toggle Logic
     const themeBtn = document.getElementById('theme-toggle');
+    const updateThemeUI = (theme) => {
+        if (theme === 'light') {
+            document.documentElement.setAttribute('data-theme', 'light');
+            if (themeBtn) themeBtn.textContent = '☀️ Light Mode';
+        } else {
+            document.documentElement.removeAttribute('data-theme');
+            document.documentElement.setAttribute('data-theme', 'dark');
+            if (themeBtn) themeBtn.textContent = '🌙 Dark Mode';
+        }
+    };
+
     const savedTheme = localStorage.getItem('dashboard-theme') || 'dark';
-    
-    if (savedTheme === 'light') {
-        document.documentElement.setAttribute('data-theme', 'light');
-    }
+    updateThemeUI(savedTheme);
 
     if (themeBtn) {
         themeBtn.addEventListener('click', () => {
-            const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+            const currentTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
             
-            if (newTheme === 'light') {
-                document.documentElement.setAttribute('data-theme', 'light');
-            } else {
-                document.documentElement.removeAttribute('data-theme');
-            }
-            
+            updateThemeUI(newTheme);
             localStorage.setItem('dashboard-theme', newTheme);
             
-            // Re-render charts for color updates
+            // Re-render active tab charts for color updates
             setTimeout(() => {
                 switch (activeTab) {
                     case 'overview': renderOverview(); break;
