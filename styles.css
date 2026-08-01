@@ -60,6 +60,33 @@
   --transition-default: 0.3s ease-out;
 }
 
+[data-theme="light"] {
+  --bg-deepest: #f4f6f8;
+  --bg-surface: #ffffff;
+  --bg-elevated: #f8fafc;
+  --bg-input: #ffffff;
+  --bg-glass: rgba(255, 255, 255, 0.85);
+
+  --border-subtle: rgba(0, 0, 0, 0.06);
+  --border-default: rgba(0, 0, 0, 0.12);
+  --border-active: rgba(0, 0, 0, 0.25);
+  --border-accent: rgba(9, 105, 218, 0.4);
+
+  --text-primary: #1f2328;
+  --text-secondary: #57606a;
+  --text-muted: #6e7781;
+  --text-link: #0969da;
+
+  --accent-blue: #0969da;
+  --accent-green: #1a7f37;
+  --accent-yellow: #9a6700;
+  --accent-red: #cf222e;
+  --accent-purple: #8250df;
+  --accent-pink: #bf3989;
+  --accent-cyan: #0550ae;
+  --accent-orange: #bc4c00;
+}
+
 /* 1. Base Reset & Typography */
 *, *::before, *::after {
   box-sizing: border-box;
